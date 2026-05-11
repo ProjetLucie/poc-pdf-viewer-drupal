@@ -1,0 +1,7 @@
+name: Hello World
+type: module
+description: Demo page using the pdf_viewer module.
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - pdf_viewer:pdf_viewer

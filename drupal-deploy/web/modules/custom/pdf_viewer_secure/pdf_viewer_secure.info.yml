@@ -1,0 +1,7 @@
+name: 'PDF Viewer Secure'
+type: module
+description: 'Secure PDF viewer — proxy streaming, signed tokens, no URL in DOM. Drop-in replacement for pdf_viewer when download prevention is required.'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:file

@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * PDF Viewer Secure module hooks.
+ *
+ * Requires a Drupal managed file ID (fid), not a raw URL.
+ * Generates a signed, user-scoped, time-limited token injected into
+ * drupalSettings — the real file path never reaches the DOM or network tab.
+ *
+ * ── Mode 1 : trigger button + modal ──────────────────────────────────────────
+ * @code
+ * return [
+ *   '#theme'        => 'pdf_viewer_secure',
+ *   '#fid'          => 42,
+ *   '#button_label' => 'Ouvrir le contrat',
+ *   '#viewer_id'    => 'my-unique-id',        // optionnel, auto-généré
+ * ];
+ * @endcode
+ *
+ * ── Mode 2 : modal seule + déclencheur externe ────────────────────────────────
+ * @code
+ * $build['modal'] = [
+ *   '#theme'     => 'pdf_viewer_secure_modal',
+ *   '#fid'       => 42,
+ *   '#viewer_id' => 'contrat-viewer',
+ * ];
+ * @endcode
+ *
+ * Sur le déclencheur externe, un seul attribut suffit (plus de data-pdf) :
+ * @code
+ * <a href="#" data-open-pdf-viewer-secure="contrat-viewer">Voir le contrat</a>
+ * @endcode
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function pdf_viewer_secure_theme(): array {
+  return [
+    'pdf_viewer_secure' => [
+      'variables' => [
+        'fid'          => NULL,
+        'button_label' => '📄 Voir le document',
+        'viewer_id'    => NULL,
+      ],
+    ],
+    'pdf_viewer_secure_modal' => [
+      'variables' => [
+        'fid'       => NULL,
+        'viewer_id' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_pdf_viewer_secure().
+ */
+function pdf_viewer_secure_preprocess_pdf_viewer_secure(array &$variables): void {
+  _pdf_viewer_secure_attach_token($variables);
+}
+
+/**
+ * Implements hook_preprocess_pdf_viewer_secure_modal().
+ */
+function pdf_viewer_secure_preprocess_pdf_viewer_secure_modal(array &$variables): void {
+  _pdf_viewer_secure_attach_token($variables);
+}
+
+/**
+ * Assigns a viewer_id if not provided.
+ *
+ * No token is generated here — tokens are fetched on demand by the JS
+ * (via /pdf-viewer/token/{fid}) at click time, so they are always fresh
+ * regardless of Drupal page cache TTL.
+ */
+function _pdf_viewer_secure_attach_token(array &$variables): void {
+  if (empty($variables['viewer_id'])) {
+    $variables['viewer_id'] = 'pvs-' . substr(md5(uniqid('', TRUE)), 0, 8);
+  }
+}

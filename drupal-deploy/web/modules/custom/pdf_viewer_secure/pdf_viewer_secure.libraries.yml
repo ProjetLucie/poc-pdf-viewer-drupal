@@ -1,0 +1,15 @@
+pdf_viewer_secure:
+  version: 1.0
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js:
+      type: external
+      minified: true
+      attributes:
+        crossorigin: anonymous
+    js/pdf-viewer-secure.js: {}
+  css:
+    theme:
+      css/pdf-viewer-secure.css: {}
+  dependencies:
+    - core/drupal
+    - core/once

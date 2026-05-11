@@ -1,0 +1,81 @@
+{#
+/**
+ * @file
+ * Template for the standalone PDF viewer component.
+ *
+ * Available variables:
+ * - pdf_url:      URL of the PDF to display (required).
+ * - button_label: Label for the trigger button (optional, has default).
+ * - viewer_id:    Unique string scoping this instance (auto-generated).
+ *
+ * Multiple instances on the same page are fully supported.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{{ attach_library('pdf_viewer/pdf_viewer') }}
+
+<div class="pdf-viewer-wrapper">
+  <button
+    class="open-viewer"
+    type="button"
+    data-pdf="{{ pdf_url }}"
+    data-viewer-id="{{ viewer_id }}"
+  >
+    {{ button_label }}
+  </button>
+</div>
+
+{# ─── Modal (hoisted to <body> by the JS behavior) ─────────────────────────── #}
+
+<div
+  class="pdf-modal-overlay"
+  data-viewer-id="{{ viewer_id }}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Visionneuse PDF"
+  aria-hidden="true"
+>
+  <div class="pdf-modal">
+
+    <div class="pdf-modal-header">
+      <div class="pdf-controls">
+        <button class="pdf-prev" type="button" title="Page précédente" disabled>
+          ← Précédent
+        </button>
+
+        <span class="pdf-page-indicator" aria-live="polite">…</span>
+
+        <button class="pdf-next" type="button" title="Page suivante" disabled>
+          Suivant →
+        </button>
+
+        <button class="pdf-zoom-out" type="button" title="Réduire le zoom">
+          − Zoom
+        </button>
+
+        <button class="pdf-zoom-in" type="button" title="Agrandir le zoom">
+          + Zoom
+        </button>
+
+        <button class="pdf-rotate-ccw" type="button" title="Rotation anti-horaire">
+          ↺
+        </button>
+
+        <button class="pdf-rotate-cw" type="button" title="Rotation horaire">
+          ↻
+        </button>
+      </div>
+
+      <button class="pdf-modal-close" type="button" title="Fermer la visionneuse">
+        ✕ Fermer
+      </button>
+    </div>
+
+    <div class="pdf-modal-body">
+      <canvas data-viewer-id="{{ viewer_id }}"></canvas>
+    </div>
+
+  </div>
+</div>
