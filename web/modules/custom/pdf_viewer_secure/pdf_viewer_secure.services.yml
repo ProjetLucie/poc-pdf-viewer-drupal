@@ -1,0 +1,4 @@
+services:
+  pdf_viewer_secure.token:
+    class: Drupal\pdf_viewer_secure\Service\PdfTokenService
+    arguments: ['@private_key']

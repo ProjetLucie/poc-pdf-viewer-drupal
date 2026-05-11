@@ -1,0 +1,182 @@
+/**
+ * @file
+ * PDF Viewer modal styles.
+ */
+
+/* ─── Trigger button ──────────────────────────────────────────────────────── */
+
+.open-viewer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: #1565c0;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.open-viewer:hover,
+.open-viewer:focus-visible {
+  background: #0d47a1;
+  outline: 2px solid #90caf9;
+  outline-offset: 2px;
+}
+
+/* ─── Overlay ─────────────────────────────────────────────────────────────── */
+
+.pdf-modal-overlay {
+  /* Hidden by default – toggled with .is-active */
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  /* High enough to clear Olivero's toolbar (z-index ~600) and admin bar */
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  /* Isolate stacking context so children inherit correctly */
+  isolation: isolate;
+}
+
+.pdf-modal-overlay.is-active {
+  display: flex;
+}
+
+/* Prevent body scroll while modal is open */
+body.pdf-modal-open {
+  overflow: hidden;
+}
+
+/* ─── Modal box ───────────────────────────────────────────────────────────── */
+
+.pdf-modal {
+  display: flex;
+  flex-direction: column;
+  width: 92vw;
+  max-width: 1024px;
+  max-height: 92vh;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  animation: pdfModalIn 0.18s ease;
+}
+
+@keyframes pdfModalIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ─── Modal header / toolbar ─────────────────────────────────────────────── */
+
+.pdf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 10px 14px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #d0d0d0;
+  gap: 10px;
+}
+
+.pdf-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ─── Control buttons ────────────────────────────────────────────────────── */
+
+.pdf-controls button {
+  padding: 5px 13px;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  color: #222;
+}
+
+.pdf-controls button:hover {
+  background: #e3e3e3;
+  border-color: #999;
+}
+
+.pdf-controls button:focus-visible {
+  outline: 2px solid #1565c0;
+  outline-offset: 2px;
+}
+
+.pdf-controls button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+/* Page indicator (e.g. "2 / 7") */
+.pdf-page-indicator {
+  min-width: 64px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  padding: 0 4px;
+}
+
+/* Close button */
+.pdf-modal-close {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  background: #c62828;
+  color: #fff;
+  border: 1px solid #b71c1c;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pdf-modal-close:hover {
+  background: #b71c1c;
+}
+
+.pdf-modal-close:focus-visible {
+  outline: 2px solid #ef9a9a;
+  outline-offset: 2px;
+}
+
+/* ─── Modal body / canvas area ───────────────────────────────────────────── */
+
+.pdf-modal-body {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  background: #707070;
+}
+
+#pdf-canvas {
+  display: block;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+  /* Let the canvas define its own size; never overflow the body */
+  max-width: 100%;
+  height: auto;
+}

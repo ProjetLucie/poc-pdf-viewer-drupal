@@ -1,0 +1,5 @@
+name: PDF Viewer
+type: module
+description: 'Provides a reusable PDF.js modal viewer. Drop into any Drupal project and use the pdf_viewer render element anywhere.'
+package: Custom
+core_version_requirement: ^10 || ^11

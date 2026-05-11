@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * PDF Viewer module hooks.
+ *
+ * TWO usage modes:
+ *
+ * ── Mode 1 : bouton + modal groupés (simplicité) ──────────────────────────
+ * @code
+ * return [
+ *   '#theme'        => 'pdf_viewer',
+ *   '#pdf_url'      => '/sites/default/files/my-doc.pdf',
+ *   '#button_label' => 'Ouvrir le contrat',  // optionnel
+ *   '#viewer_id'    => 'my-unique-id',        // optionnel, auto-généré
+ * ];
+ * @endcode
+ *
+ * ── Mode 2 : modal seule + déclencheur externe ────────────────────────────
+ * Déclarez la modal n'importe où dans le layout :
+ * @code
+ * $build['modal'] = [
+ *   '#theme'     => 'pdf_viewer_modal',
+ *   '#viewer_id' => 'contrat-viewer',  // optionnel, auto-généré
+ * ];
+ * @endcode
+ *
+ * Puis sur N'IMPORTE QUEL élément HTML, ajoutez deux attributs :
+ *   data-open-pdf-viewer="contrat-viewer"   ← cible la modal
+ *   data-pdf="/sites/default/files/doc.pdf" ← document à charger
+ *
+ * @code
+ * $build['cta'] = [
+ *   '#markup' => '<a href="#"
+ *                    data-open-pdf-viewer="contrat-viewer"
+ *                    data-pdf="/sites/default/files/contrat.pdf">
+ *                  Voir le contrat
+ *                </a>',
+ * ];
+ * @endcode
+ *
+ * Multiple viewers on the same page are fully supported in both modes.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function pdf_viewer_theme(): array {
+  return [
+    // Mode 1 — bouton + modal groupés.
+    'pdf_viewer' => [
+      'variables' => [
+        'pdf_url'      => NULL,
+        'button_label' => '📄 Voir le document',
+        'viewer_id'    => NULL,
+      ],
+    ],
+    // Mode 2 — modal seule, déclencheur externe.
+    'pdf_viewer_modal' => [
+      'variables' => [
+        'viewer_id' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_pdf_viewer().
+ */
+function pdf_viewer_preprocess_pdf_viewer(array &$variables): void {
+  if (empty($variables['viewer_id'])) {
+    $variables['viewer_id'] = 'pv-' . substr(md5(uniqid('', TRUE)), 0, 8);
+  }
+}
+
+/**
+ * Implements hook_preprocess_pdf_viewer_modal().
+ */
+function pdf_viewer_preprocess_pdf_viewer_modal(array &$variables): void {
+  if (empty($variables['viewer_id'])) {
+    $variables['viewer_id'] = 'pv-' . substr(md5(uniqid('', TRUE)), 0, 8);
+  }
+}

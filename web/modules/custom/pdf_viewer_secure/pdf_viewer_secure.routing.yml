@@ -1,0 +1,16 @@
+pdf_viewer_secure.serve:
+  path: '/pdf-viewer/serve/{token}'
+  defaults:
+    _controller: '\Drupal\pdf_viewer_secure\Controller\PdfProxyController::serve'
+    _title: ''
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+pdf_viewer_secure.token:
+  path: '/pdf-viewer/token/{fid}'
+  defaults:
+    _controller: '\Drupal\pdf_viewer_secure\Controller\PdfProxyController::token'
+    _title: ''
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    fid: '\d+'

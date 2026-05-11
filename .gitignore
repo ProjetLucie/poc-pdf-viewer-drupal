@@ -1,0 +1,28 @@
+# Drupal
+web/core/
+web/sites/default/files/
+web/sites/*/settings.php
+web/sites/*/settings.local.php
+web/sites/*/services.local.yml
+web/sites/default/settings.ddev.php
+
+# Composer
+vendor/
+drupal-deploy/vendor/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+
+# DDEV — conserver config, ignorer état runtime
+.ddev/.ddev-docker-compose-base.yaml
+.ddev/.ddev-docker-compose-full.yaml
+
+# Drupal compiled/cache
+web/sites/default/files/
+drupal-deploy/web/sites/default/files/
+
+# Archives
+drupal-deploy.zip

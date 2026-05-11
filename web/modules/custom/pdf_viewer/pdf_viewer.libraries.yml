@@ -1,0 +1,14 @@
+pdf_viewer:
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js:
+      type: external
+      minified: true
+      attributes:
+        crossorigin: anonymous
+    js/pdf-viewer.js: {}
+  css:
+    theme:
+      css/pdf-viewer.css: {}
+  dependencies:
+    - core/drupal
+    - core/once
